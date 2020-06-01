@@ -47,7 +47,7 @@ class Cadastro extends React.Component {
     } = this.state.user;
 
     var phone_pattern = /^[0-9]{5}-[0-9]{4}$/;
-    var email_pattern = /\w+@\w+(.com.br | .com)/;
+    var email_pattern = /\w+@\w+\.(com|com\.br)/;
 
     if (!email_pattern.test(email)) {
       Alert.alert('', 'PADRÃO DE EMAIL INCORRETO');
