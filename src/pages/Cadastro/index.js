@@ -46,6 +46,17 @@ class Cadastro extends React.Component {
       password_repeat,
     } = this.state.user;
 
+    var phone_pattern = /^[0-9]{5}-[0-9]{4}$/;
+    var email_pattern = /\w+@\w+(.com.br | .com)/;
+
+    if (!email_pattern.test(email)) {
+      Alert.alert('', 'PADRÃO DE EMAIL INCORRETO');
+    }
+
+    if (!phone_pattern.test(phone)) {
+      Alert.alert('', 'ESCREVA O TELEFONE CORRETAMENTE');
+    }
+
     if (password !== password_repeat) {
       Alert.alert('', 'SENHA NÃO BATE');
     }
