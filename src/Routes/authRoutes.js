@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Login from '../pages/Login';
-import Cadastro from '../pages/Cadastro';
+import Login from '../Pages/Login';
+import Cadastro from '../Pages/Cadastro';
 
 const AuthStack = createStackNavigator();
 

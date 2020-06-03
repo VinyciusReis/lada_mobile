@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import api from '../../Services/api';
 import logo_app from '../../../images/recife.jpg';
+import AuthContext from '../../Context/authContext';
 import {
   Container,
   Logo,
@@ -16,6 +17,7 @@ import {
 } from './styles';
 
 class Login extends React.Component {
+  static contextType = AuthContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -32,7 +34,9 @@ class Login extends React.Component {
 
   async fazerLogin() {
     var {username, password} = this.state;
-    const response = await api.get('adad');
+    //const response = await api.get('adad');
+    let ctx = this.context;
+    Alert.alert('sdsad', '' + ctx);
   }
   render() {
     this.state.disabledButton();

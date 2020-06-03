@@ -1,13 +1,18 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import AuthRoutes from './authRoutes';
 import OtherRoutes from './mainRoutes';
+import AuthContext from '../Context/authContext';
 
-export default function() {
+function Routes() {
+  const logado = useContext(AuthContext);
+
   return (
     <NavigationContainer>
-      {true ? <AuthRoutes /> : <OtherRoutes />}
+      {logado ? <OtherRoutes /> : <AuthRoutes />}
     </NavigationContainer>
   );
 }
+
+export default Routes;

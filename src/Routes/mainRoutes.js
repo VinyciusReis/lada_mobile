@@ -1,8 +1,8 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Main from '../pageS/Main';
-import Perfil from '../pages/Perfil';
-import Tecnologias from '../pages/Tecnologias';
+import Main from '../Pages/Main';
+import Perfil from '../Pages/Perfil';
+import Tecnologias from '../Pages/Tecnologias';
 
 const OtherStack = createStackNavigator();
 
