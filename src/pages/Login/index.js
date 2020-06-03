@@ -31,6 +31,7 @@ class Login extends React.Component {
   }
 
   async fazerLogin() {
+    var {username, password} = this.state;
     const response = await api.get('adad');
   }
   render() {
