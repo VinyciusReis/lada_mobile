@@ -95,12 +95,27 @@ class Perfil extends React.Component {
             defaultValue={this.state.user.github_username}
             editable={this.state.editabled}
           />
-          <Input value={this.state.user.nome} editable={this.state.editabled} />
+          <Input
+            defaultValue={this.state.user.nome}
+            editable={this.state.editabled}
+          />
           <Input
             defaultValue={this.state.user.email}
             editable={this.state.editabled}
           />
           <Input
+            onChangeText={text => {
+              this.setState({
+                user: {
+                  phone: text,
+                  nome: this.state.user.nome,
+                  email: this.state.user.email,
+                  github_username: this.state.user.github_username,
+                  avatar_perfil: this.state.user.avatar_perfil,
+                  token: this.state.user.token,
+                },
+              });
+            }}
             defaultValue={this.state.user.phone}
             editable={this.state.editabled}
           />

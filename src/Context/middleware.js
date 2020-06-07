@@ -22,39 +22,22 @@ const ContextProvider = ({children}) => {
         setIsLogged(true);
       });
     }
-
-    /*api
-      .post('dev/login', {
-        username_github: username,
-        password: user_password,
-      })
-      .then(response => {
-        setUser(response.data);
-        setIsLogged(true);
-      })
-      .catch(error => {
-        return error.message;
-      });
-      */
   };
 
-  const singUp = dev => {
-    const {username, name, phone, email, password} = dev;
+  const singUp = async dev => {
+    const {username, nome, telefone, email_dev, senha} = dev;
 
-    api
-      .post('dev', {
-        name: name,
-        username_github: username,
-        phone: phone,
-        email: email,
-        password: password,
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    const response = await api.post('dev', {
+      name: nome,
+      username_github: username,
+      phone: telefone,
+      email: email_dev,
+      password: senha,
+    });
+
+    if (response) {
+      return 'PARABÉNS! CADASTRO FEITO COM SUCESSO';
+    }
   };
 
   const logOut = () => {
@@ -70,11 +53,30 @@ const ContextProvider = ({children}) => {
     return lang_techs;
   };
 
+  const deleteDev = async () => {
+    const response = await api.delete('dev/' + user.dev._id);
+    if (response) {
+      setIsLogged(false);
+    }
+  };
+
+  const buscarVaga = async vaga_search => {
+    const search_vaga = vaga_search;
+
+    const response = await api.post('opportunitys/search', {
+      search: search_vaga,
+    });
+
+    if (response) {
+      setVagas(response.data);
+    }
+  };
+
   const atualizarDev = async dev => {
     const {username, nome, telefone, email_dev} = dev;
     const config = {
       headers: {
-        Authorization: 'bearer ' + user.dev.token,
+        Authorization: 'bearer ' + user.token,
       },
     };
     const response = await api.put(
@@ -92,18 +94,6 @@ const ContextProvider = ({children}) => {
     if (response) {
       setUser(response.data);
     }
-
-    /*api.put('/dev', {
-      username_github: username,
-      name: name,
-      password: password,
-      phone: phone,
-      email: email,
-    }).then(response => {
-
-
-
-    })*/
   };
   return (
     <Provider
@@ -116,6 +106,8 @@ const ContextProvider = ({children}) => {
         singUp,
         listarTechs,
         atualizarDev,
+        deleteDev,
+        buscarVaga,
       }}>
       {children}
     </Provider>

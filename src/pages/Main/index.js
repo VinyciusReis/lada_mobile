@@ -85,13 +85,24 @@ class Main extends React.Component {
     this.setState({imageURL: nome, vaga: jobs});
   }
 
+  buscarVagas(search) {
+    let {buscarVaga, vagas} = this.context;
+    let jobs;
+    buscarVaga(search);
+    search = '';
+    jobs = vagas.opportunitys;
+    this.setState({vaga: jobs});
+  }
+
   render() {
     return (
       <Container>
         <Form>
           <Icon name="magnifier" size={25} />
           <InputSearch
-            onChangeText={() => {}}
+            onChangeText={text => {
+              this.buscarVagas(text);
+            }}
             placeholder="digite alguma coisa"
           />
         </Form>

@@ -40,33 +40,48 @@ class Cadastro extends React.Component {
   }
 
   criarConta() {
-    var {
-      username,
-      name,
-      email,
-      phone,
-      password,
-      password_repeat,
-    } = this.state.user;
+    var {email, phone, password, password_repeat} = this.state.user;
 
     var phone_pattern = /^[0-9]{5}-[0-9]{4}$/;
     var email_pattern = /\w+@\w+\.(com|com\.br)/;
 
     if (!email_pattern.test(email)) {
       Alert.alert('', 'PADRÃO DE EMAIL INCORRETO');
+      return false;
     }
 
     if (!phone_pattern.test(phone)) {
       Alert.alert('', 'ESCREVA O TELEFONE CORRETAMENTE');
+      return false;
     }
 
     if (password !== password_repeat) {
       Alert.alert('', 'SENHA NÃO BATE');
+      return false;
     }
 
     let {singUp} = this.context;
 
-    Alert.alert(singUp(this.state.user));
+    let dev = {
+      username: this.state.user.username,
+      nome: this.state.user.name,
+      senha: this.state.user.password,
+      telefone: this.state.user.phone,
+      email_dev: this.state.user.email,
+    };
+
+    this.setState({
+      user: {
+        username: '',
+        name: '',
+        email: '',
+        phone: '',
+        password: '',
+        repeat_password: '',
+      },
+    });
+
+    singUp(dev);
   }
 
   render() {
