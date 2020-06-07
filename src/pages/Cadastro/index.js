@@ -1,6 +1,7 @@
 import React from 'react';
 import {Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import AuthContext from '../../Context/authContext';
 import {
   Form,
   Container,
@@ -11,6 +12,8 @@ import {
 } from '../Login/styles';
 
 class Cadastro extends React.Component {
+  //consumindo o valor do contexto com contextType
+  static contextType = AuthContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -60,6 +63,10 @@ class Cadastro extends React.Component {
     if (password !== password_repeat) {
       Alert.alert('', 'SENHA NÃO BATE');
     }
+
+    let {singUp} = this.context;
+
+    Alert.alert(singUp(this.state.user));
   }
 
   render() {
@@ -156,9 +163,9 @@ class Cadastro extends React.Component {
                   },
                 });
               }}
-              secureTextEntry={true}
+              secureTextEntry
               placeholder="Crie uma senha"
-              accessibilityLabel="sua senha"
+              maxLength={12}
             />
           </InputForm>
           <InputForm>
@@ -178,6 +185,7 @@ class Cadastro extends React.Component {
               }}
               secureTextEntry={true}
               placeholder="Repita a senha"
+              maxLength={12}
             />
           </InputForm>
           <Button

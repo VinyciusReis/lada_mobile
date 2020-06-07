@@ -94,10 +94,14 @@ export const Perfil = styled.View`
   background-color: purple;
 `;
 
-export const Avatar = styled.Image`
+export const AvatarImage = styled.Image`
   height: 55px;
   width: 55px;
   border-radius: 100px;
   position: relative;
   top: -15px;
 `;
+
+export const Avatar = styled.TouchableWithoutFeedback`
+`;
+

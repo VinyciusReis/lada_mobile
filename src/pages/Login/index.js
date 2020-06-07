@@ -1,8 +1,7 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
-import api from '../../Services/api';
-import logo_app from '../../../images/recife.jpg';
+import logo_app from '../../../images/logo_lada.png';
 import AuthContext from '../../Context/authContext';
 import {
   Container,
@@ -17,6 +16,7 @@ import {
 } from './styles';
 
 class Login extends React.Component {
+  //consumindo o contexto com contextType;
   static contextType = AuthContext;
   constructor(props) {
     super(props);
@@ -32,11 +32,10 @@ class Login extends React.Component {
     };
   }
 
-  async fazerLogin() {
+  fazerLogin() {
     var {username, password} = this.state;
-    //const response = await api.get('adad');
-    let ctx = this.context;
-    Alert.alert('sdsad', '' + ctx);
+    let {singIn} = this.context;
+    singIn(username, password);
   }
   render() {
     this.state.disabledButton();

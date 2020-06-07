@@ -6,11 +6,11 @@ import OtherRoutes from './mainRoutes';
 import AuthContext from '../Context/authContext';
 
 function Routes() {
-  const logado = useContext(AuthContext);
+  const {isLogged} = useContext(AuthContext);
 
   return (
     <NavigationContainer>
-      {logado ? <OtherRoutes /> : <AuthRoutes />}
+      {isLogged ? <OtherRoutes /> : <AuthRoutes />}
     </NavigationContainer>
   );
 }

@@ -6,10 +6,7 @@ export const Container = styled.View`
 `;
 
 export const Logo = styled.Image`
-  width: 160px;
-  height: 160px;
   margin-bottom: 30px;
-  border-radius: 100px;
 `;
 
 export const Form = styled.View`

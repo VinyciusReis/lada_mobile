@@ -1,6 +1,7 @@
 import React from 'react';
 import {Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import AuthContext from '../../Context/authContext';
 import {
   Container,
   Form,
@@ -19,23 +20,22 @@ import {
   Cidade,
   Perfil,
   Avatar,
+  AvatarImage,
 } from './styles';
-
-const avatar = require('../../../images/recife.jpg');
 
 function RenderVaga(props) {
   return (
     <Vaga>
       <TopSection>
-        <Titulo>{props.job.titulo}</Titulo>
-        <Empresa>{props.job.empresa}</Empresa>
+        <Titulo>{props.job.title}</Titulo>
+        <Empresa>{props.job.company}</Empresa>
       </TopSection>
       <MiddleSection>
-        <Descricao numberOfLines={3}>{props.job.descricao}</Descricao>
+        <Descricao numberOfLines={3}>{props.job.descption}</Descricao>
       </MiddleSection>
       <TopSection>
-        <Salario>R$ {props.job.salario}</Salario>
-        <Cidade>{props.job.cidade}</Cidade>
+        <Salario>R$ {props.job.salary}</Salario>
+        <Cidade>{props.job.city}</Cidade>
       </TopSection>
       <BottomSection>
         <Icon name="arrow-right" size={25} color="blue" />
@@ -45,6 +45,7 @@ function RenderVaga(props) {
 }
 
 class Main extends React.Component {
+  static contextType = AuthContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -70,17 +71,18 @@ class Main extends React.Component {
         'João Pessoa',
         'Porto Alegre',
       ],
-      vaga: [
-        {
-          titulo: 'Vaga de JavaScript',
-          empresa: 'Linx',
-          descricao:
-            'Precisamos de desenvolvedores para fazer um projeto muito foda aqui na empresa, eu conto com a sua inscrição',
-          salario: '3450.00',
-          cidade: 'Recife',
-        },
-      ],
+      vaga: [],
+
+      imageURL: '',
     };
+  }
+
+  componentDidMount() {
+    let {user, vagas} = this.context;
+    let nome = user.dev.avatar_url;
+    let jobs = vagas.opportunitys;
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState({imageURL: nome, vaga: jobs});
   }
 
   render() {
@@ -124,9 +126,12 @@ class Main extends React.Component {
           showsVerticalScrollIndicator={false}
           data={this.state.vaga}
           renderItem={({item}) => <RenderVaga job={item} />}
+          keyExtractor={item => item._id}
         />
         <Perfil>
-          <Avatar source={avatar} />
+          <Avatar onPress={() => this.props.navigation.navigate('perfil')}>
+            <AvatarImage source={{uri: this.state.imageURL}} />
+          </Avatar>
         </Perfil>
       </Container>
     );
