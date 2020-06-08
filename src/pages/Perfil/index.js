@@ -28,18 +28,20 @@ class Perfil extends React.Component {
         phone: '',
         avatar_perfil: '#',
         token: '',
+        password: '',
       },
     };
   }
 
   componentDidMount() {
-    let {user, token} = this.context;
+    let {user, token, senha} = this.context;
     let image_url = user.dev.avatar_url;
     let name = user.dev.name;
     let email_dev = user.dev.email;
     let username = user.dev.username_github;
     let telefone = user.dev.phone;
     let tk = token;
+    let user_senha = senha;
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
       user: {
@@ -49,6 +51,7 @@ class Perfil extends React.Component {
         phone: telefone,
         avatar_perfil: image_url,
         token: tk,
+        password: user_senha,
       },
     });
   }
@@ -72,6 +75,7 @@ class Perfil extends React.Component {
         email_dev: this.state.user.email,
         telefone: this.state.user.phone,
         token: this.state.user.token,
+        senha_dev: this.state.user.password,
       };
 
       atualizarDev(dev);
@@ -124,6 +128,7 @@ class Perfil extends React.Component {
                   email: this.state.user.email,
                   avatar_perfil: this.state.user.avatar_perfil,
                   token: this.state.user.token,
+                  password: this.state.user.password,
                 },
               });
             }}
@@ -141,6 +146,7 @@ class Perfil extends React.Component {
                   email: this.state.user.email,
                   avatar_perfil: this.state.user.avatar_perfil,
                   token: this.state.user.token,
+                  password: this.state.user.password,
                 },
               });
             }}
@@ -158,6 +164,7 @@ class Perfil extends React.Component {
                   email: text,
                   avatar_perfil: this.state.user.avatar_perfil,
                   token: this.state.user.token,
+                  password: this.state.user.password,
                 },
               });
             }}
@@ -175,13 +182,31 @@ class Perfil extends React.Component {
                   github_username: this.state.user.github_username,
                   avatar_perfil: this.state.user.avatar_perfil,
                   token: this.state.user.token,
+                  password: this.state.user.password,
                 },
               });
             }}
             defaultValue={this.state.user.phone}
             editable={this.state.editabled}
           />
-          <Input editable={this.state.editabled} />
+          <Label>Senha do usuário(a)</Label>
+          <Input
+            onChangeText={text => {
+              this.setState({
+                user: {
+                  phone: this.state.user.phone,
+                  nome: this.state.user.nome,
+                  email: this.state.user.email,
+                  github_username: this.state.user.github_username,
+                  avatar_perfil: this.state.user.avatar_perfil,
+                  token: this.state.user.token,
+                  password: text,
+                },
+              });
+            }}
+            defaultValue={this.state.user.password}
+            editable={this.state.editabled}
+          />
         </Infos>
         <Buttons>
           <SimpleButton

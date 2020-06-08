@@ -1,6 +1,7 @@
 import React from 'react';
 import {Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import api from '../../Services/api';
 import AuthContext from '../../Context/authContext';
 import {
   Container,
@@ -51,12 +52,13 @@ class Main extends React.Component {
     this.state = {
       selectedLanguage: '',
       selectedCity: '',
+      selectedTech: '',
       languages: [
         'Linguagens',
-        'React',
-        'React Native',
+        'C',
+        'HTML',
         'JavaScript',
-        'AngularJS',
+        'Swift',
         'Java',
         'C#',
         'C++',
@@ -72,35 +74,78 @@ class Main extends React.Component {
         'Maceio',
         'João Pessoa',
         'Porto Alegre',
+        'Belo Horizonte',
+        'Salvador',
       ],
+
+      techs: ['NodeJs', 'React', 'React Native', 'Angular'],
       vaga: [],
 
       imageURL: '#',
     };
   }
 
-  componentDidMount() {
-    let {user, vagas, buscarVaga} = this.context;
-    let nome = user.dev.avatar_url;
-    let jobs = vagas.opportunitys;
+  async componentDidMount() {
+    let {user} = this.context;
+    let avatar = user.dev.avatar_url;
+    let jobs = [];
+    const response = await api.get('opportunitys');
+    if (response) {
+      jobs = response.data.opportunitys;
+    }
     // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({imageURL: nome, vaga: jobs});
+    this.setState({imageURL: avatar, vaga: jobs});
   }
 
   componentWillUnmount() {
-    this.setState({imageURL: 'asd', vaga: []});
+    this.setState({imageURL: '#', vaga: []});
   }
 
-  buscarVagas(search) {
-    let {buscarVaga, vagas} = this.context;
+  async buscarVagas(valorBusca) {
+    const response = await api.post('opportunitys/search', {
+      search: valorBusca,
+    });
+
+    if (response) {
+      this.setState({vaga: response.data.opportunitys});
+    }
+    /*let {buscarVaga, vagas} = this.context;
     let jobs;
     buscarVaga(search);
     jobs = vagas.opportunitys;
-    this.setState({vaga: jobs});
+    this.setState({vaga: jobs});*/
   }
 
-  filtrarVagas() {
-    Alert.alert(' ', this.state.selectedLanguage);
+  async filtrarVagas(value, id) {
+    if (id === 1) {
+      let linguagem = value;
+      // eslint-disable-next-line eqeqeq
+      if (value == 'Linguagens') {
+        value = [];
+      } else {
+        value = [value.toLowerCase()];
+      }
+      /*if (id === 2) {
+        let cidade = value;
+        if (cidade === 'Cidades') {
+          Alert.alert('asdsad');
+          value = '';
+        }
+      }
+      */
+
+      const response = await api.post('opportunitys/filter', {
+        city: 'Recife',
+        langs: value,
+        techs: [],
+      });
+      if (response) {
+        this.setState({
+          vaga: response.data.opportunitys,
+          selectedLanguage: linguagem,
+        });
+      }
+    }
     /*var selectedLanguage = this.state.selectedLanguage;
     var selectedCity = this.state.selectedCity;
 
@@ -144,10 +189,7 @@ class Main extends React.Component {
             mode={Dropdown.MODE_DROPDOWN}
             selectedValue={this.state.selectedLanguage}
             onValueChange={(value, index) => {
-              //this.setState({selectedLanguage: value}, this.filtrarVagas());
-              const {filtrarVaga, vagas} = this.context;
-              filtrarVaga({});
-              this.setState({vaga: vagas.opportunitys});
+              this.filtrarVagas(value, 1);
             }}>
             {this.state.languages.map(item => (
               <Dropdown.Item value={item} label={item} />
@@ -163,10 +205,13 @@ class Main extends React.Component {
               <Dropdown.Item label={item} value={item} />
             ))}
           </Dropdown>
-          <Dropdown>
-            {this.state.languages.map(item => {
-              <Dropdown.Item label={item} value={item} />;
-            })}
+          <Dropdown
+            mode={Dropdown.MODE_DROPDOWN}
+            selectedValue={this.state.selectedTech}
+            onValueChange={(value, index) => {}}>
+            {this.state.techs.map(item => (
+              <Dropdown.Item label={item} value={item} />
+            ))}
           </Dropdown>
         </Filtros>
         <Card

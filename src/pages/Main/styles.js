@@ -21,13 +21,14 @@ export const InputSearch = styled.TextInput`
 `;
 
 export const Filtros = styled.View`
-  flex-direction: row;
+  /*flex-direction: row;*/
   padding: 10px;
-  align-items: center;
+  /*align-items: center;*/
 `;
 
 export const Dropdown = styled(Picker)`
-  flex: 1;
+  /*flex: 1;*/
+  height: 20px;
   padding: 5px;
   margin: 2px 0;
 `;

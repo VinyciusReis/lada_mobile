@@ -5,8 +5,9 @@ import api from '../Services/api';
 const ContextProvider = ({children}) => {
   const [isLogged, setIsLogged] = useState(false);
   const [user, setUser] = useState({});
-  const [vagas, setVagas] = useState({});
+  //const [vagas, setVagas] = useState({});
   const [token, setToken] = useState('');
+  const [senha, setSenha] = useState('');
 
   const singIn = async (username, user_password) => {
     const response1 = await api.post('dev/login', {
@@ -14,7 +15,14 @@ const ContextProvider = ({children}) => {
       password: user_password,
     });
 
-    const response2 = await api.get('opportunitys');
+    if (response1) {
+      setSenha(user_password);
+      setUser(response1.data);
+      setToken(response1.data.token);
+      setIsLogged(true);
+    }
+
+    /*const response2 = await api.get('opportunitys');
 
     if (response1) {
       Promise.all([response1, response2]).then(function(results) {
@@ -24,6 +32,7 @@ const ContextProvider = ({children}) => {
         setIsLogged(true);
       });
     }
+    */
   };
 
   const singUp = async dev => {
@@ -70,7 +79,7 @@ const ContextProvider = ({children}) => {
     });
 
     if (response) {
-      setVagas(response.data);
+      //setVagas(response.data);
     }
   };
 
@@ -83,12 +92,12 @@ const ContextProvider = ({children}) => {
     });
 
     if (response) {
-      return setVagas(response.data);
+      //return setVagas(response.data);
     }
   };
 
   const atualizarDev = async dev => {
-    const {username, nome, telefone, email_dev} = dev;
+    const {username, nome, telefone, email_dev, senha_dev} = dev;
     const config = {
       headers: {
         Authorization: 'bearer ' + token,
@@ -99,7 +108,7 @@ const ContextProvider = ({children}) => {
       {
         username_github: username,
         name: nome,
-        password: '123456789',
+        password: senha_dev,
         phone: telefone,
         email: email_dev,
       },
@@ -107,6 +116,7 @@ const ContextProvider = ({children}) => {
     );
 
     if (response) {
+      setSenha(senha_dev);
       setUser(response.data);
     }
   };
@@ -115,8 +125,8 @@ const ContextProvider = ({children}) => {
       value={{
         isLogged,
         user,
-        vagas,
         token,
+        senha,
         singIn,
         logOut,
         singUp,
