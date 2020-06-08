@@ -13,20 +13,20 @@ export const Account = styled.View`
 `;
 
 export const Avatar = styled.Image`
-  height: 160px;
-  width: 160px;
+  height: 130px;
+  width: 130px;
   border-radius: 100px;
 `;
 
-export const Infos = styled.View`
+export const Infos = styled.ScrollView`
   flex: 1;
-  padding: 10px 10px 10px 0;
+  padding: 10px 0 10px 0;
 `;
 
 export const Input = styled.TextInput`
   padding: 8px;
   margin-bottom: 5px;
-  border-radius: 40px;
+  border-radius: 10px;
   background-color: #fff;
 `;
 
@@ -40,6 +40,11 @@ export const SimpleButton = styled.TouchableOpacity`
   padding: 15px;
   margin-left: 5px;
   border-radius: 15px;
+`;
+
+export const Label = styled.Text`
+  font-family: 'Microsoft Sans Serif';
+  font-size: 15px;
 `;
 
 export const TextButton = styled.Text`

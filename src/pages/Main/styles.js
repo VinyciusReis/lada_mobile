@@ -40,7 +40,7 @@ export const Vaga = styled.View`
   padding: 10px;
   border-radius: 35px;
   background-color: #fff;
-  margin: 10px;
+  margin: 5px;
 `;
 
 export const TopSection = styled.View`
@@ -63,12 +63,12 @@ export const BottomSection = styled.View`
 
 export const Titulo = styled.Text`
   font-family: 'Microsoft Sans Serif';
-  font-size: 22px;
+  font-size: 18px;
 `;
 
 export const Empresa = styled.Text`
   font-family: 'Microsoft Sans Serif';
-  font-size: 22px;
+  font-size: 18px;
 `;
 
 export const Salario = styled.Text`
@@ -102,6 +102,5 @@ export const AvatarImage = styled.Image`
   top: -15px;
 `;
 
-export const Avatar = styled.TouchableWithoutFeedback`
+export const Avatar = styled.TouchableOpacity`
 `;
-

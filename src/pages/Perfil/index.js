@@ -11,6 +11,7 @@ import {
   Buttons,
   SimpleButton,
   TextButton,
+  Label,
 } from './styles';
 
 class Perfil extends React.Component {
@@ -18,27 +19,27 @@ class Perfil extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      buttonText: 'Editar',
+      buttonText: 'Editar Perfil',
       editabled: false,
       user: {
         nome: '',
         email: '',
         github_username: '',
         phone: '',
-        avatar_perfil: '',
+        avatar_perfil: '#',
         token: '',
       },
     };
   }
 
   componentDidMount() {
-    let {user} = this.context;
+    let {user, token} = this.context;
     let image_url = user.dev.avatar_url;
     let name = user.dev.name;
     let email_dev = user.dev.email;
     let username = user.dev.username_github;
     let telefone = user.dev.phone;
-    let tk = user.dev.token;
+    let tk = token;
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
       user: {
@@ -54,16 +55,23 @@ class Perfil extends React.Component {
 
   editarPerfil() {
     let buttonText = this.state.buttonText;
-    if (buttonText === 'Editar') {
-      this.setState({buttonText: 'Salvar', editabled: !this.state.editabled});
+    if (buttonText === 'Editar Perfil') {
+      this.setState({
+        buttonText: 'Salvar Infos',
+        editabled: !this.state.editabled,
+      });
     } else {
-      this.setState({buttonText: 'Editar', editabled: !this.state.editabled});
+      this.setState({
+        buttonText: 'Editar Perfil',
+        editabled: !this.state.editabled,
+      });
       let {atualizarDev} = this.context;
       let dev = {
         username: this.state.user.github_username,
         nome: this.state.user.nome,
         email_dev: this.state.user.email,
         telefone: this.state.user.phone,
+        token: this.state.user.token,
       };
 
       atualizarDev(dev);
@@ -71,13 +79,26 @@ class Perfil extends React.Component {
   }
 
   deleteAccount() {
-    /*Alert.alert(
+    const {deleteDev} = this.context;
+    Alert.alert(
       'Mensagem',
       'VOCÊ DESEJA REMOVER SUA CONTA?',
-      [{text: 'SIM', style: 'default'}, {text: 'CANCELAR', style: 'cancel'}],
+      [
+        {
+          text: 'SIM',
+          onPress: function() {
+            Alert.alert('Conta excluída com sucesso!');
+            deleteDev();
+          },
+          style: 'default',
+        },
+        {text: 'CANCELAR', style: 'cancel'},
+      ],
       {cancelable: false},
     );
-    */
+  }
+
+  fazerLogout() {
     let {logOut} = this.context;
 
     logOut();
@@ -88,21 +109,62 @@ class Perfil extends React.Component {
       <Container>
         <Account>
           <Avatar source={{uri: this.state.user.avatar_perfil}} />
-          <Icon name="trash" size={25} onPress={() => this.deleteAccount()} />
+          <Icon name="trash" size={35} onPress={() => this.deleteAccount()} />
+          <Icon name="logout" size={35} onPress={() => this.fazerLogout()} />
         </Account>
         <Infos>
+          <Label>Github username</Label>
           <Input
+            onChangeText={text => {
+              this.setState({
+                user: {
+                  github_username: text,
+                  nome: this.state.user.nome,
+                  phone: this.state.user.phone,
+                  email: this.state.user.email,
+                  avatar_perfil: this.state.user.avatar_perfil,
+                  token: this.state.user.token,
+                },
+              });
+            }}
             defaultValue={this.state.user.github_username}
             editable={this.state.editabled}
           />
+          <Label>Nome completo</Label>
           <Input
+            onChangeText={text => {
+              this.setState({
+                user: {
+                  github_username: this.state.user.github_username,
+                  nome: text,
+                  phone: this.state.user.phone,
+                  email: this.state.user.email,
+                  avatar_perfil: this.state.user.avatar_perfil,
+                  token: this.state.user.token,
+                },
+              });
+            }}
             defaultValue={this.state.user.nome}
             editable={this.state.editabled}
           />
+          <Label>Email do usuário(a)</Label>
           <Input
+            onChangeText={text => {
+              this.setState({
+                user: {
+                  github_username: this.state.user.github_username,
+                  nome: this.state.user.nome,
+                  phone: this.state.user.phone,
+                  email: text,
+                  avatar_perfil: this.state.user.avatar_perfil,
+                  token: this.state.user.token,
+                },
+              });
+            }}
             defaultValue={this.state.user.email}
             editable={this.state.editabled}
           />
+          <Label>Telefone de contato</Label>
           <Input
             onChangeText={text => {
               this.setState({
@@ -126,7 +188,7 @@ class Perfil extends React.Component {
             onPress={() => {
               this.props.navigation.navigate('tecnologia');
             }}>
-            <TextButton>Techs</TextButton>
+            <TextButton>Langs/Techs</TextButton>
           </SimpleButton>
           <SimpleButton
             onPress={() => {

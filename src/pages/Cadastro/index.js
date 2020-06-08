@@ -82,6 +82,7 @@ class Cadastro extends React.Component {
     });
 
     singUp(dev);
+    this.props.navigation.navigate('login');
   }
 
   render() {

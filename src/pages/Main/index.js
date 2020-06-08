@@ -52,6 +52,7 @@ class Main extends React.Component {
       selectedLanguage: '',
       selectedCity: '',
       languages: [
+        'Linguagens',
         'React',
         'React Native',
         'JavaScript',
@@ -63,6 +64,7 @@ class Main extends React.Component {
       ],
 
       city: [
+        'Cidades',
         'São Paulo',
         'Rio de Janeiro',
         'Fortaleza',
@@ -73,25 +75,56 @@ class Main extends React.Component {
       ],
       vaga: [],
 
-      imageURL: '',
+      imageURL: '#',
     };
   }
 
   componentDidMount() {
-    let {user, vagas} = this.context;
+    let {user, vagas, buscarVaga} = this.context;
     let nome = user.dev.avatar_url;
     let jobs = vagas.opportunitys;
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({imageURL: nome, vaga: jobs});
   }
 
+  componentWillUnmount() {
+    this.setState({imageURL: 'asd', vaga: []});
+  }
+
   buscarVagas(search) {
     let {buscarVaga, vagas} = this.context;
     let jobs;
     buscarVaga(search);
-    search = '';
     jobs = vagas.opportunitys;
     this.setState({vaga: jobs});
+  }
+
+  filtrarVagas() {
+    Alert.alert(' ', this.state.selectedLanguage);
+    /*var selectedLanguage = this.state.selectedLanguage;
+    var selectedCity = this.state.selectedCity;
+
+    if (selectedLanguage === 'Linguagens') {
+      selectedLanguage = '';
+    }
+
+    if (selectedCity === 'Cidades') {
+      selectedCity = '';
+    }
+
+    selectedLanguage = selectedLanguage.toLowerCase();
+
+    const filtros = {
+      cidade: selectedCity,
+      linguagens: selectedLanguage,
+      tecnologias: '',
+    };
+    //acessando o contexto e chamando o método para filtrar as vagas
+    const {filtrarVaga, vagas} = this.context;
+    filtrarVaga(filtros);
+    //modificando o estado com as novas vagas
+    this.setState({vaga: vagas.opportunitys});
+    */
   }
 
   render() {
@@ -110,9 +143,12 @@ class Main extends React.Component {
           <Dropdown
             mode={Dropdown.MODE_DROPDOWN}
             selectedValue={this.state.selectedLanguage}
-            onValueChange={(value, index) =>
-              this.setState({selectedLanguage: value})
-            }>
+            onValueChange={(value, index) => {
+              //this.setState({selectedLanguage: value}, this.filtrarVagas());
+              const {filtrarVaga, vagas} = this.context;
+              filtrarVaga({});
+              this.setState({vaga: vagas.opportunitys});
+            }}>
             {this.state.languages.map(item => (
               <Dropdown.Item value={item} label={item} />
             ))}
@@ -120,9 +156,9 @@ class Main extends React.Component {
           <Dropdown
             mode={Dropdown.MODE_DROPDOWN}
             selectedValue={this.state.selectedCity}
-            onValueChange={(value, index) =>
-              this.setState({selectedCity: value})
-            }>
+            onValueChange={(value, index) => {
+              this.setState({selectedCity: value}, this.filtrarVagas());
+            }}>
             {this.state.city.map(item => (
               <Dropdown.Item label={item} value={item} />
             ))}

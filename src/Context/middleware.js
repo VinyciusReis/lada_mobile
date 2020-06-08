@@ -6,6 +6,7 @@ const ContextProvider = ({children}) => {
   const [isLogged, setIsLogged] = useState(false);
   const [user, setUser] = useState({});
   const [vagas, setVagas] = useState({});
+  const [token, setToken] = useState('');
 
   const singIn = async (username, user_password) => {
     const response1 = await api.post('dev/login', {
@@ -18,6 +19,7 @@ const ContextProvider = ({children}) => {
     if (response1) {
       Promise.all([response1, response2]).then(function(results) {
         setUser(results[0].data);
+        setToken(results[0].data.token);
         setVagas(results[1].data);
         setIsLogged(true);
       });
@@ -72,11 +74,24 @@ const ContextProvider = ({children}) => {
     }
   };
 
+  const filtrarVaga = async filtros => {
+    //var {cidade, linguagens, tecnologias} = filtros;
+    const response = await api.post('opportunitys/filter', {
+      city: '',
+      langs: ['java'],
+      techs: [],
+    });
+
+    if (response) {
+      return setVagas(response.data);
+    }
+  };
+
   const atualizarDev = async dev => {
     const {username, nome, telefone, email_dev} = dev;
     const config = {
       headers: {
-        Authorization: 'bearer ' + user.token,
+        Authorization: 'bearer ' + token,
       },
     };
     const response = await api.put(
@@ -101,6 +116,7 @@ const ContextProvider = ({children}) => {
         isLogged,
         user,
         vagas,
+        token,
         singIn,
         logOut,
         singUp,
@@ -108,6 +124,7 @@ const ContextProvider = ({children}) => {
         atualizarDev,
         deleteDev,
         buscarVaga,
+        filtrarVaga,
       }}>
       {children}
     </Provider>
