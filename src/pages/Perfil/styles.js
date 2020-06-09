@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: lightsalmon;
+  background-color: #e5e8e8;
 `;
 
 export const Account = styled.View`
@@ -36,7 +36,7 @@ export const Buttons = styled.View`
 `;
 
 export const SimpleButton = styled.TouchableOpacity`
-  background-color: purple;
+  background-color: #8e44ad;
   padding: 15px;
   margin-left: 5px;
   border-radius: 15px;

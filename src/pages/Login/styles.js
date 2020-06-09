@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: lightsalmon;
+  background-color: #e5e8e8;
 `;
 
 export const Logo = styled.Image`
@@ -31,7 +31,7 @@ export const Input = styled.TextInput`
 export const Button = styled.TouchableOpacity`
   align-self: stretch;
   padding: 15px;
-  background-color: purple;
+  background-color: #8e44ad;
   border-radius: 40px;
   opacity: ${props => (props.disabled === true ? 0.5 : 1)};
 `;
@@ -52,5 +52,5 @@ export const CadastroLink = styled.TouchableOpacity`
 export const CadastroLinkText = styled.Text`
   font-size: 15px;
   font-weight: bold;
-  color: #fff;
+  color: #8e44ad;
 `;

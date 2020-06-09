@@ -4,7 +4,7 @@ import {Picker} from '@react-native-community/picker';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: lightsalmon;
+  background-color: #e5e8e8;
 `;
 
 export const Form = styled.View`
@@ -92,7 +92,7 @@ export const Descricao = styled.Text`
 export const Perfil = styled.View`
   align-items: center;
   height: 50px;
-  background-color: purple;
+  background-color: #8e44ad;
 `;
 
 export const AvatarImage = styled.Image`
