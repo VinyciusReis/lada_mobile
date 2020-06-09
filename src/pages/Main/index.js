@@ -117,59 +117,55 @@ class Main extends React.Component {
   }
 
   async filtrarVagas(value, id) {
+    //o usuário precisa filtrar as vagas que aparecem na tela
+
+    //passos necessários
+
+    //1 - o usuário precisa escolher os filtros que ele quer
+
+    const selectedCity = this.state.selectedCity;
+    const selectedLanguage = this.state.selectedLanguage;
+
+    var cidade = '';
+    var city = '';
+    var linguagem = [];
+    var lang = '';
+
     if (id === 1) {
-      let linguagem = value;
-      // eslint-disable-next-line eqeqeq
-      if (value == 'Linguagens') {
-        value = [];
+      city = selectedCity;
+
+      if (value === 'Linguagens') {
+        linguagem = [];
+        lang = value;
       } else {
-        value = [value.toLowerCase()];
-      }
-      /*if (id === 2) {
-        let cidade = value;
-        if (cidade === 'Cidades') {
-          Alert.alert('asdsad');
-          value = '';
-        }
-      }
-      */
-
-      const response = await api.post('opportunitys/filter', {
-        city: 'Recife',
-        langs: value,
-        techs: [],
-      });
-      if (response) {
-        this.setState({
-          vaga: response.data.opportunitys,
-          selectedLanguage: linguagem,
-        });
+        linguagem = [value.toLowerCase()];
+        lang = value;
       }
     }
-    /*var selectedLanguage = this.state.selectedLanguage;
-    var selectedCity = this.state.selectedCity;
 
-    if (selectedLanguage === 'Linguagens') {
-      selectedLanguage = '';
+    if (id === 2) {
+      lang = selectedLanguage;
+
+      if (value === 'Cidades') {
+        cidade = '';
+        city = value;
+      } else {
+        cidade = value;
+        city = value;
+      }
     }
 
-    if (selectedCity === 'Cidades') {
-      selectedCity = '';
-    }
+    const response = await api.post('opportunitys/filter', {
+      city: cidade,
+      langs: linguagem,
+      techs: [],
+    });
 
-    selectedLanguage = selectedLanguage.toLowerCase();
-
-    const filtros = {
-      cidade: selectedCity,
-      linguagens: selectedLanguage,
-      tecnologias: '',
-    };
-    //acessando o contexto e chamando o método para filtrar as vagas
-    const {filtrarVaga, vagas} = this.context;
-    filtrarVaga(filtros);
-    //modificando o estado com as novas vagas
-    this.setState({vaga: vagas.opportunitys});
-    */
+    this.setState({
+      selectedCity: city,
+      selectedLanguage: lang,
+      vaga: response.data.opportunitys,
+    });
   }
 
   render() {
@@ -199,7 +195,7 @@ class Main extends React.Component {
             mode={Dropdown.MODE_DROPDOWN}
             selectedValue={this.state.selectedCity}
             onValueChange={(value, index) => {
-              this.setState({selectedCity: value}, this.filtrarVagas());
+              this.filtrarVagas(value, 2);
             }}>
             {this.state.city.map(item => (
               <Dropdown.Item label={item} value={item} />
