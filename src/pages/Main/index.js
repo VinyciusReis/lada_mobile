@@ -29,7 +29,7 @@ function RenderVaga(props) {
     <Vaga>
       <TopSection>
         <Titulo>{props.job.title}</Titulo>
-        <Empresa>{props.job.company}</Empresa>
+        <Empresa>{props.job.company.name}</Empresa>
       </TopSection>
       <MiddleSection>
         <Descricao numberOfLines={3}>{props.job.descption}</Descricao>
