@@ -50,9 +50,9 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedLanguage: '',
-      selectedCity: '',
-      selectedTech: '',
+      selectedLanguage: 'Linguagens',
+      selectedCity: 'Cidades',
+      selectedTech: 'Tecnologias',
       languages: [
         'Linguagens',
         'C',
@@ -78,7 +78,7 @@ class Main extends React.Component {
         'Salvador',
       ],
 
-      techs: ['NodeJs', 'React', 'React Native', 'Angular'],
+      techs: ['Tecnologias', 'NodeJs', 'React', 'React Native', 'Angular'],
       vaga: [],
 
       imageURL: '#',
@@ -116,54 +116,75 @@ class Main extends React.Component {
     this.setState({vaga: jobs});*/
   }
 
-  async filtrarVagas(value, id) {
-    //o usuário precisa filtrar as vagas que aparecem na tela
-
-    //passos necessários
-
-    //1 - o usuário precisa escolher os filtros que ele quer
-
-    const selectedCity = this.state.selectedCity;
-    const selectedLanguage = this.state.selectedLanguage;
+  async filtrarVagas(filtro, tipo) {
+    var selectedLanguage = this.state.selectedLanguage;
+    var selectedCity = this.state.selectedCity;
+    var selectedTech = this.state.selectedTech;
 
     var cidade = '';
-    var city = '';
-    var linguagem = [];
-    var lang = '';
+    var lang = [];
+    var tech = [];
 
-    if (id === 1) {
-      city = selectedCity;
+    if (tipo === 1) {
+      if (selectedCity !== 'Cidades') {
+        cidade = selectedCity;
+      }
 
-      if (value === 'Linguagens') {
-        linguagem = [];
-        lang = value;
+      if (selectedTech !== 'Tecnologias') {
+        tech = [selectedTech];
+      }
+
+      if (filtro !== 'Linguagens') {
+        selectedLanguage = filtro;
+        lang = [filtro.toLowerCase()];
       } else {
-        linguagem = [value.toLowerCase()];
-        lang = value;
+        selectedLanguage = filtro;
       }
     }
 
-    if (id === 2) {
-      lang = selectedLanguage;
+    if (tipo === 2) {
+      if (selectedLanguage !== 'Linguagens') {
+        lang = [selectedLanguage.toLowerCase()];
+      }
 
-      if (value === 'Cidades') {
-        cidade = '';
-        city = value;
+      if (selectedTech !== 'Tecnologias') {
+        tech = [selectedTech];
+      }
+
+      if (filtro !== 'Cidades') {
+        selectedCity = filtro;
+        cidade = filtro;
       } else {
-        cidade = value;
-        city = value;
+        selectedCity = filtro;
+      }
+    }
+
+    if (tipo === 3) {
+      if (selectedCity !== 'Cidades') {
+        cidade = selectedCity;
+      }
+
+      if (selectedLanguage !== 'Linguagens') {
+        lang = [selectedLanguage.toLowerCase()];
+      }
+      if (filtro !== 'Tecnologias') {
+        selectedTech = filtro;
+        tech = [filtro];
+      } else {
+        selectedTech = filtro;
       }
     }
 
     const response = await api.post('opportunitys/filter', {
       city: cidade,
-      langs: linguagem,
-      techs: [],
+      langs: lang,
+      techs: tech,
     });
 
     this.setState({
-      selectedCity: city,
-      selectedLanguage: lang,
+      selectedCity: selectedCity,
+      selectedLanguage: selectedLanguage,
+      selectedTech: selectedTech,
       vaga: response.data.opportunitys,
     });
   }
@@ -204,7 +225,9 @@ class Main extends React.Component {
           <Dropdown
             mode={Dropdown.MODE_DROPDOWN}
             selectedValue={this.state.selectedTech}
-            onValueChange={(value, index) => {}}>
+            onValueChange={(value, index) => {
+              this.filtrarVagas(value, 3);
+            }}>
             {this.state.techs.map(item => (
               <Dropdown.Item label={item} value={item} />
             ))}
