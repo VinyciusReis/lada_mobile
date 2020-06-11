@@ -33,7 +33,7 @@ const Tecnologias = () => {
       ) : (
         tecnologias.map((item, index) => {
           return (
-            <Techs key={toString(index)}>
+            <Techs key={index + 'asdfghhj'}>
               <TechName>{item.name}</TechName>
               <TechScore>{item.score}</TechScore>
             </Techs>
@@ -48,7 +48,7 @@ const Tecnologias = () => {
       ) : (
         linguagens.map((item, index) => {
           return (
-            <Techs key={index}>
+            <Techs key={index + 'asd'}>
               <LangName>{item.name}</LangName>
               <LangScore>{item.score}</LangScore>
             </Techs>

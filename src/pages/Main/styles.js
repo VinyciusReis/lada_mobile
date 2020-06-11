@@ -103,5 +103,9 @@ export const AvatarImage = styled.Image`
   top: -15px;
 `;
 
-export const Avatar = styled.TouchableOpacity`
+export const Avatar = styled.TouchableOpacity``;
+
+export const CardServer = styled.View`
+  flex: 1;
+  align-items: center;
 `;

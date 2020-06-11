@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert} from 'react-native';
+import {Text} from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import api from '../../Services/api';
 import AuthContext from '../../Context/authContext';
@@ -22,6 +22,7 @@ import {
   Perfil,
   Avatar,
   AvatarImage,
+  CardServer,
 } from './styles';
 
 function RenderVaga(props) {
@@ -233,12 +234,19 @@ class Main extends React.Component {
             ))}
           </Dropdown>
         </Filtros>
-        <Card
-          showsVerticalScrollIndicator={false}
-          data={this.state.vaga}
-          renderItem={({item}) => <RenderVaga job={item} />}
-          keyExtractor={item => item._id}
-        />
+        {this.state.vaga.length === 0 ? (
+          <CardServer>
+            <Icon name="cup" size={50} />
+            <Text>NO DATA</Text>
+          </CardServer>
+        ) : (
+          <Card
+            showsVerticalScrollIndicator={false}
+            data={this.state.vaga}
+            renderItem={({item}) => <RenderVaga job={item} />}
+            keyExtractor={item => item.title + '1asd'}
+          />
+        )}
         <Perfil>
           <Avatar onPress={() => this.props.navigation.navigate('perfil')}>
             <AvatarImage source={{uri: this.state.imageURL}} />
